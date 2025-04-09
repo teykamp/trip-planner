@@ -1,1 +1,11 @@
 @import "tailwindcss";
+@theme {
+    --color-space-100: #d1d5db;
+    --color-space-200: #a1a1aa;
+    --color-space-400: #6b7280;
+    --color-space-600: #4b5563;
+    --color-space-800: #1f2937;
+    --color-space-900: #111827;
+    --color-accent: #a78bfa;
+    --color-accent-soft: #c4b5fd;
+}
