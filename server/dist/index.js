@@ -14,17 +14,10 @@ const app = (0, express_1.default)();
 const server = (0, http_1.createServer)(app);
 app.use(express_1.default.json());
 const corsOptions = {
-    origin: 'https://trip-planner-front-end.vercel.app',
+    origin: 'http://localhost:4321',
     methods: 'GET, POST, PUT, DELETE',
-    credentials: true
 };
 app.use((0, cors_1.default)(corsOptions));
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', 'https://trip-planner-front-end.vercel.app'); // Your frontend URL
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-    res.header('Access-Control-Allow-Headers', 'Origin, Content-Type, Accept');
-    next();
-});
 // Get all activities
 app.get("/activities", (req, res) => {
     res.json(activities_1.activities);
