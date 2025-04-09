@@ -21,12 +21,13 @@ app.use(cors(corsOptions));
 
 // Get all activities
 app.get("/activities", (req: Request, res: Response) => {
-  
+  app.options('*', cors(corsOptions));
   res.json(activities);
 });
 
 // update activities
 app.post("/activities/update", (req: Request, res: Response) => {
+  app.options('*', cors(corsOptions));
   const { title, dateStart, reactions } = req.body;
 
   const activity = activities.find(
@@ -45,6 +46,7 @@ app.post("/activities/update", (req: Request, res: Response) => {
 
 // update interested
 app.post("/activities/interested", (req: Request, res: Response) => {
+  app.options('*', cors(corsOptions));
   const { title, dateStart, interestedPersonData } = req.body;
   const activity = activities.find(
     (activity) => activity.title === title && activity.dateStart === dateStart
