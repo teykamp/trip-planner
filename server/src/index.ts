@@ -12,11 +12,12 @@ const server = createServer(app);
 
 app.use(express.json());
 const corsOptions = {
-  origin: 'http://localhost:4321',
+  origin: 'https://trip-planner-front-end.vercel.app',
   methods: 'GET, POST, PUT, DELETE',
 };
 
 app.use(cors(corsOptions));
+
 
 // Get all activities
 app.get("/activities", (req: Request, res: Response) => {
