@@ -14,6 +14,28 @@ const userReaction = useLocalStorage(storageKey.value, null);
 const showEmojiOptions = ref(false);
 const emojiOptions = ["👍", "❤️", "🎉", "🚀", "👏", "😄", "🤔", "👀", "🔥"];
 
+const updateReactions = async () => {
+  try {
+    const response = await fetch("http://localhost:3000/activities/update", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        title: props.activity.title,
+        dateStart: props.activity.dateStart,
+        reactions: props.activity.reactions
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to update reactions on the backend");
+    }
+  } catch (err) {
+    console.error("Error updating activity reactions:", err);
+  }
+}
+
 const selectEmoji = (emoji: string) => {
   if (userReaction.value === emoji) {
     userReaction.value = null;
@@ -36,6 +58,8 @@ const selectEmoji = (emoji: string) => {
     }
     userReaction.value = emoji;
   }
+
+  updateReactions()
 };
 
 
@@ -47,8 +71,7 @@ const isEmojiInReactions = (emoji: string) => {
 
 const hasReactions = computed(() => {
   return (
-    Object.keys(props.activity.reactions).length > 0 ||
-    userReaction.value !== null
+    Object.keys(props.activity.reactions).length > 0 
   );
 });
 </script>

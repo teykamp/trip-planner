@@ -44,4 +44,5 @@ const toggleEmojiPicker = () => {
   <p class="text-xs text-space-400">
     Interested: {{ activity.interestedPeople.length }} {{ computePeopleString }}
   </p>
+  <p class="text-xs text-space-100 italic cursor-pointer">I'm interested</p>
 </template>

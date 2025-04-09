@@ -7,11 +7,13 @@ const activities = ref<Activity[]>([]);
 
 onMounted(async () => {
   try {
-    const response = await fetch("/data/activities.json");
+    const response = await fetch("http://localhost:3000/activities");
     const data = await response.json();
+
     data.sort((a: Activity, b: Activity) => {
       return new Date(a.dateStart).getTime() - new Date(b.dateStart).getTime();
     });
+
     activities.value = data;
   } catch (err) {
     console.error("Failed to load activities:", err);
