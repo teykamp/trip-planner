@@ -27,6 +27,16 @@ app.post("/activities/update", (req, res) => {
     activity.reactions = reactions;
     res.status(200).json({ message: "Activity reactions updated successfully" });
 });
+app.post("/activities/interested", (req, res) => {
+    const { title, dateStart, interestedPersonData } = req.body;
+    const activity = activities_1.activities.find((activity) => activity.title === title && activity.dateStart === dateStart);
+    if (!activity) {
+        res.status(404).json({ message: "Activity not found" });
+        return;
+    }
+    activity.interestedPeople.push(interestedPersonData);
+    res.status(200).json({ message: "Activity interested people updated successfully" });
+});
 // Serve static files in production
 if (process.env.NODE_ENV === "production") {
     app.use(express_1.default.static(__dirname + "/public/"));
