@@ -16,7 +16,7 @@ const emojiOptions = ["👍", "❤️", "🎉", "🚀", "👏", "😄", "🤔", 
 
 const updateReactions = async () => {
   try {
-    const response = await fetch(`${window.location.origin}/activities/update`, {
+    const response = await fetch(`https://trip-planner-backend-iota.vercel.app/activities/update`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
