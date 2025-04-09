@@ -12,8 +12,8 @@ const server = createServer(app);
 
 app.use(express.json());
 const corsOptions = {
-  origin: 'https://trip-planner-front-end.vercel.app',
-  methods: 'GET,POST',
+  origin: 'https://trip-planner-front-end.vercel.app/',
+  methods: 'GET, POST, PUT, DELETE',
   credentials: true
 };
 
