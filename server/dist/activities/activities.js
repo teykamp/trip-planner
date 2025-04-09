@@ -10,4 +10,12 @@ exports.activities = [
         reactions: {},
         interestedPeople: [],
     },
+    {
+        title: "Buy a Bike",
+        dateStart: "2025-04-12",
+        dateEnd: "2025-04-13",
+        description: "Nicer to get around town",
+        reactions: {},
+        interestedPeople: [],
+    },
 ];
