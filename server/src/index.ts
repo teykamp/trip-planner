@@ -19,8 +19,16 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'https://trip-planner-front-end.vercel.app'); // Your frontend URL
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.header('Access-Control-Allow-Headers', 'Origin, Content-Type, Accept');
+  next();
+});
+
 // Get all activities
 app.get("/activities", (req: Request, res: Response) => {
+  
   res.json(activities);
 });
 
