@@ -8,7 +8,6 @@ const activities = ref<Activity[]>([]);
 onMounted(async () => {
   try {
     const response = await fetch("/data/activities.json");
-    console.log("Fetching activities from JSON file...");
     const data = await response.json();
     data.sort((a: Activity, b: Activity) => {
       return new Date(a.dateStart).getTime() - new Date(b.dateStart).getTime();
@@ -21,13 +20,14 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="space-y-8">
+  <div class="space-y-8 overflow-auto">
     <div
       v-for="(activity, index) in activities"
       :key="index"
-      class="bg-space-800 rounded-xl p-6 shadow-md border border-space-600"
+      class="bg-space-800 rounded-xl"
     >
       <ActivityCard :activity="activity" />
+      <hr v-if="index < activities.length -1 " class="h-px bg-gray-200 border-0 dark:bg-gray-700 my-6">
     </div>
   </div>
 </template>

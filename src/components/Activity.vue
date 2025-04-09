@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import type { Activity } from "@/types";
-import { computed } from "vue";
+import { computed, ref } from "vue";
+import Reactions from "./Reactions.vue";
 
-const props = defineProps({
-  activity: Object as Activity,
-});
+const props = defineProps<{
+    activity: Activity;
+}>();
 
 const formatDate = (dateStr: string) => {
   const date = new Date(dateStr);
@@ -16,11 +17,18 @@ const formatDate = (dateStr: string) => {
 };
 
 const computePeopleString = computed(() => {
-    const interestedPeople = props.activity.interestedPeople.length;
-    return interestedPeople === 1
-      ? "person"
-      : "people";
-})
+  const interestedPeople = props.activity.interestedPeople.length;
+  return interestedPeople === 1 ? "person" : "people";
+});
+
+const selectEmoji = (emoji: string) => {
+  userReaction.value = emoji;
+  showEmojiPicker.value = false;
+};
+
+const toggleEmojiPicker = () => {
+  showEmojiPicker.value = !showEmojiPicker.value;
+};
 </script>
 
 <template>
@@ -31,16 +39,7 @@ const computePeopleString = computed(() => {
   </p>
   <p class="mb-4 text-space-100">{{ activity.description }}</p>
 
-  <div class="flex gap-3 mb-2">
-    <div
-      v-for="(count, emoji) in activity.reactions"
-      :key="emoji"
-      class="flex items-center gap-1 text-lg"
-    >
-      <span>{{ emoji }}</span>
-      <span class="text-sm text-space-300">({{ count }})</span>
-    </div>
-  </div>
+  <Reactions :activity="activity" />
 
   <p class="text-xs text-space-400">
     Interested: {{ activity.interestedPeople.length }} {{ computePeopleString }}

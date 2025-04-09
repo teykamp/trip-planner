@@ -6,8 +6,8 @@
       "description": "A chill hangout under the stars.",
       "reactions": {
         "🔥": 3,
-        "🌕": 2,
-        "✨": 5
+        "👍": 2,
+        "❤️": 5
       },
       "interestedPeople": ["alice@example.com", "bob@example.com"]
     },
@@ -17,8 +17,7 @@
       "dateEnd": "2025-05-01",
       "description": "We launch a hobby rocket and grill burgers.",
       "reactions": {
-        "🚀": 4,
-        "🍔": 2
+        
       },
       "interestedPeople": ["carol@example.com"]
     }
