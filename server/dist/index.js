@@ -14,18 +14,29 @@ const app = (0, express_1.default)();
 const server = (0, http_1.createServer)(app);
 app.use(express_1.default.json());
 const corsOptions = {
-    origin: 'https://trip-planner-front-end.vercel.app',
-    methods: 'GET, POST, PUT, DELETE',
+    origin: "https://trip-planner-front-end.vercel.app",
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: [
+        "X-CSRF-Token",
+        "X-Requested-With",
+        "Accept",
+        "Accept-Version",
+        "Content-Length",
+        "Content-MD5",
+        "Content-Type",
+        "Date",
+        "X-Api-Version",
+        "Authorization"
+    ],
 };
 app.use((0, cors_1.default)(corsOptions));
+app.options('*', (0, cors_1.default)(corsOptions));
 // Get all activities
 app.get("/activities", (req, res) => {
-    app.options('*', (0, cors_1.default)(corsOptions));
     res.json(activities_1.activities);
 });
 // update activities
 app.post("/activities/update", (req, res) => {
-    app.options('*', (0, cors_1.default)(corsOptions));
     const { title, dateStart, reactions } = req.body;
     const activity = activities_1.activities.find((activity) => activity.title === title && activity.dateStart === dateStart);
     if (!activity) {
@@ -37,7 +48,6 @@ app.post("/activities/update", (req, res) => {
 });
 // update interested
 app.post("/activities/interested", (req, res) => {
-    app.options('*', (0, cors_1.default)(corsOptions));
     const { title, dateStart, interestedPersonData } = req.body;
     const activity = activities_1.activities.find((activity) => activity.title === title && activity.dateStart === dateStart);
     if (!activity) {
