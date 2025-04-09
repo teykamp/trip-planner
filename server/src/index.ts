@@ -3,6 +3,7 @@ import express, { Request, Response } from "express";
 import { createServer } from "http";
 import { LOCALHOST_PORT } from "./constants";
 import { activities } from "./activities/activities";
+import cors from 'cors';
 
 dotenv.config();
 
@@ -10,6 +11,13 @@ const app = express();
 const server = createServer(app);
 
 app.use(express.json());
+const corsOptions = {
+  origin: 'https://trip-planner-front-end.vercel.app',
+  methods: 'GET,POST',
+  credentials: true
+};
+
+app.use(cors(corsOptions));
 
 // Get all activities
 app.get("/activities", (req: Request, res: Response) => {
@@ -34,6 +42,7 @@ app.post("/activities/update", (req: Request, res: Response) => {
   res.status(200).json({ message: "Activity reactions updated successfully" });
 });
 
+// update interested
 app.post("/activities/interested", (req: Request, res: Response) => {
   const { title, dateStart, interestedPersonData } = req.body;
   const activity = activities.find(
