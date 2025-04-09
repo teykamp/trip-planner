@@ -17,19 +17,20 @@ app.get("/activities", (req: Request, res: Response) => {
 });
 
 // // update activities
-// app.post('/activities/update', (req: Request, res: Response) => {
-//   const { title, dateStart, reactions } = req.body;
+app.post('/activities/update', (req: Request, res: Response) => {
+  const { title, dateStart, reactions } = req.body;
 
-//   const activity = activities.find((activity) => activity.title === title && activity.dateStart === dateStart);
+  const activity = activities.find((activity) => activity.title === title && activity.dateStart === dateStart);
 
-//   if (!activity) {
-//     return res.status(404).json({ message: "Activity not found" });
-//   }
+  if (!activity) {
+    res.status(404).json({ message: "Activity not found" });
+    return
+  }
 
-//   activity.reactions = reactions;
+  activity.reactions = reactions;
 
-//   return res.status(200).json({ message: "Activity reactions updated successfully" });
-// });
+  res.status(200).json({ message: "Activity reactions updated successfully" });
+});
 
 // Serve static files in production
 if (process.env.NODE_ENV === "production") {

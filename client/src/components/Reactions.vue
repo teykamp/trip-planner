@@ -16,7 +16,7 @@ const emojiOptions = ["👍", "❤️", "🎉", "🚀", "👏", "😄", "🤔", 
 
 const updateReactions = async () => {
   try {
-    const response = await fetch("http://localhost:3000/activities/update", {
+    const response = await fetch(`${window.location.origin}/activities/update`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -24,7 +24,7 @@ const updateReactions = async () => {
       body: JSON.stringify({
         title: props.activity.title,
         dateStart: props.activity.dateStart,
-        reactions: props.activity.reactions
+        reactions: props.activity.reactions,
       })
     });
 
