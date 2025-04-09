@@ -1,16 +1,22 @@
 ---
-import Layout from '../layouts/Layout.astro';
 import "../styles/global.css";
+import Layout from "../layouts/Layout.astro";
+import Activities from "../components/Activities.vue";
 ---
-<Layout title="Astro Planner ✨">
-  <h1 class="text-4xl md:text-5xl font-bold text-accent mb-4 text-center">Astro Event Planner</h1>
-  <p class="text-space-100 text-center mb-10">Plan your events, gather RSVPs, and track emoji reactions 🚀</p>
 
-  <section class="bg-space-800 rounded-2xl p-6 shadow-lg border border-space-600">
-    <p class="text-space-100 mb-2">Vue components will render below:</p>
-    
-    <div id="interactive-zone" class="mt-4 space-y-4">
-      <!-- Vue components mount here -->
+<Layout title="Astro Planner ✨">
+  <h1 class="text-4xl md:text-5xl font-bold text-accent mb-4 text-center">
+    Astro Event Planner
+  </h1>
+  <p class="text-space-100 text-center mb-10">
+    Plan your events, gather RSVPs, and track emoji reactions 🚀
+  </p>
+
+  <section
+    class="bg-space-800 rounded-2xl p-6 shadow-lg border border-space-600"
+  >
+    <div class="mt-4 space-y-4">
+      <Activities client:load />
     </div>
   </section>
 </Layout>
