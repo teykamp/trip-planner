@@ -16,7 +16,7 @@ const emojiOptions = ["👍", "❤️", "🎉", "🚀", "👏", "😄", "🤔", 
 
 const updateReactions = async () => {
   try {
-    const response = await fetch(`http://localhost:3000/activities/update`, {
+    const response = await fetch(`${window.location.origin}/activities/update`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
