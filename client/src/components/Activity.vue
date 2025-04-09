@@ -50,7 +50,7 @@ const submitName = async () => {
   userInterested.value = nameInputValue.value
 
   try {
-    const response = await fetch(`http://localhost:3000/activities/interested`, {
+    const response = await fetch(`https://trip-planner-back-end.vercel.app/activities/interested`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

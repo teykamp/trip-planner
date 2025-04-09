@@ -7,7 +7,7 @@ const activities = ref<Activity[]>([]);
 
 onMounted(async () => {
   try {
-    const response = await fetch("https://trip-planner-backend-iota.vercel.app/activities");
+    const response = await fetch("https://trip-planner-back-end.vercel.app/activities");
     const data = await response.json();
 
     data.sort((a: Activity, b: Activity) => {
