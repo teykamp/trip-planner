@@ -16,8 +16,8 @@ app.use(express_1.default.json());
 app.get("/activities", (req, res) => {
     res.json(activities_1.activities);
 });
-// // update activities
-app.post('/activities/update', (req, res) => {
+// update activities
+app.post("/activities/update", (req, res) => {
     const { title, dateStart, reactions } = req.body;
     const activity = activities_1.activities.find((activity) => activity.title === title && activity.dateStart === dateStart);
     if (!activity) {

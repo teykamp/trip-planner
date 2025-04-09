@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import type { Activity } from "@/types/Activity";
-import ActivityCard from './Activity.vue';
+import ActivityCard from "./Activity.vue";
 
 const activities = ref<Activity[]>([]);
 
@@ -29,7 +29,10 @@ onMounted(async () => {
       class="bg-space-800 rounded-xl"
     >
       <ActivityCard :activity="activity" />
-      <hr v-if="index < activities.length -1 " class="h-px bg-gray-200 border-0 dark:bg-gray-700 my-6">
+      <hr
+        v-if="index < activities.length - 1"
+        class="h-px bg-gray-200 border-0 dark:bg-gray-700 my-6"
+      />
     </div>
   </div>
 </template>

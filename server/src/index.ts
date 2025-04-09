@@ -16,15 +16,17 @@ app.get("/activities", (req: Request, res: Response) => {
   res.json(activities);
 });
 
-// // update activities
-app.post('/activities/update', (req: Request, res: Response) => {
+// update activities
+app.post("/activities/update", (req: Request, res: Response) => {
   const { title, dateStart, reactions } = req.body;
 
-  const activity = activities.find((activity) => activity.title === title && activity.dateStart === dateStart);
+  const activity = activities.find(
+    (activity) => activity.title === title && activity.dateStart === dateStart
+  );
 
   if (!activity) {
     res.status(404).json({ message: "Activity not found" });
-    return
+    return;
   }
 
   activity.reactions = reactions;

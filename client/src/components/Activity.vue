@@ -4,7 +4,7 @@ import { computed, ref } from "vue";
 import Reactions from "./Reactions.vue";
 
 const props = defineProps<{
-    activity: Activity;
+  activity: Activity;
 }>();
 
 const formatDate = (dateStr: string) => {
@@ -19,6 +19,12 @@ const formatDate = (dateStr: string) => {
 const computePeopleString = computed(() => {
   const interestedPeople = props.activity.interestedPeople.length;
   return interestedPeople === 1 ? "person" : "people";
+});
+
+const computePeopleText = computed(() => {
+  return props.activity.interestedPeople.length === 0
+    ? "No one interested yet"
+    : `Interested: ${props.activity.interestedPeople.length} ${computePeopleString.value}`;
 });
 
 const selectEmoji = (emoji: string) => {
@@ -42,7 +48,7 @@ const toggleEmojiPicker = () => {
   <Reactions :activity="activity" />
 
   <p class="text-xs text-space-400">
-    Interested: {{ activity.interestedPeople.length }} {{ computePeopleString }}
+    {{ computePeopleText }}
   </p>
   <p class="text-xs text-space-100 italic cursor-pointer">I'm interested</p>
 </template>

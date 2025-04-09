@@ -16,16 +16,16 @@ const emojiOptions = ["👍", "❤️", "🎉", "🚀", "👏", "😄", "🤔", 
 
 const updateReactions = async () => {
   try {
-    const response = await fetch(`${window.location.origin}/activities/update`, {
+    const response = await fetch(`http://localhost:3000/activities/update`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         title: props.activity.title,
         dateStart: props.activity.dateStart,
         reactions: props.activity.reactions,
-      })
+      }),
     });
 
     if (!response.ok) {
@@ -34,22 +34,29 @@ const updateReactions = async () => {
   } catch (err) {
     console.error("Error updating activity reactions:", err);
   }
-}
+};
 
 const selectEmoji = (emoji: string) => {
   if (userReaction.value === emoji) {
     userReaction.value = null;
-    if (props.activity.reactions[emoji] && props.activity.reactions[emoji] > 0) {
+    if (
+      props.activity.reactions[emoji] &&
+      props.activity.reactions[emoji] > 0
+    ) {
       props.activity.reactions[emoji] -= 1;
       if (props.activity.reactions[emoji] === 0) {
         delete props.activity.reactions[emoji];
       }
     }
   } else {
-    props.activity.reactions[emoji] = (props.activity.reactions[emoji] || 0) + 1;
+    props.activity.reactions[emoji] =
+      (props.activity.reactions[emoji] || 0) + 1;
 
     if (userReaction.value) {
-      if (props.activity.reactions[userReaction.value] && props.activity.reactions[userReaction.value] > 0) {
+      if (
+        props.activity.reactions[userReaction.value] &&
+        props.activity.reactions[userReaction.value] > 0
+      ) {
         props.activity.reactions[userReaction.value] -= 1;
         if (props.activity.reactions[userReaction.value] === 0) {
           delete props.activity.reactions[userReaction.value];
@@ -59,9 +66,8 @@ const selectEmoji = (emoji: string) => {
     userReaction.value = emoji;
   }
 
-  updateReactions()
+  updateReactions();
 };
-
 
 const isEmojiInReactions = (emoji: string) => {
   return Object.keys(props.activity.reactions).includes(
@@ -70,9 +76,7 @@ const isEmojiInReactions = (emoji: string) => {
 };
 
 const hasReactions = computed(() => {
-  return (
-    Object.keys(props.activity.reactions).length > 0 
-  );
+  return Object.keys(props.activity.reactions).length > 0;
 });
 </script>
 
