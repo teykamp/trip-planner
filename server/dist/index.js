@@ -35,16 +35,37 @@ app.options('*', (0, cors_1.default)(corsOptions));
 app.get("/activities", (req, res) => {
     res.json(activities_1.activities);
 });
-// update activities
-app.post("/activities/update", (req, res) => {
-    const { title, dateStart, reactions } = req.body;
-    const activity = activities_1.activities.find((activity) => activity.title === title && activity.dateStart === dateStart);
+// update reaction
+app.post("/activities/reaction", (req, res) => {
+    const { activityId, emoji, action } = req.body;
+    if (!activityId || !emoji || !['increment', 'decrement'].includes(action)) {
+        res.status(400).json({ message: "Invalid request parameters" });
+        return;
+    }
+    const activity = activities_1.activities.find((activity) => activity.id === activityId);
     if (!activity) {
         res.status(404).json({ message: "Activity not found" });
         return;
     }
-    activity.reactions = reactions;
-    res.status(200).json({ message: "Activity reactions updated successfully" });
+    if (!activity.reactions[emoji]) {
+        activity.reactions[emoji] = 0;
+    }
+    if (action === 'increment') {
+        activity.reactions[emoji]++;
+    }
+    else if (action === 'decrement') {
+        if (activity.reactions[emoji] > 0) {
+            activity.reactions[emoji]--;
+        }
+        if (activity.reactions[emoji] === 0) {
+            delete activity.reactions[emoji];
+        }
+    }
+    console.log(`Activity ID: ${activityId}, Emoji: ${emoji}, Action: ${action}`);
+    res.status(200).json({
+        message: "Activity reaction updated successfully",
+        updatedReactions: activity.reactions
+    });
 });
 // update interested
 app.post("/activities/interested", (req, res) => {

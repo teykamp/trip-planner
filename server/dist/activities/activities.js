@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.activities = void 0;
 exports.activities = [
     {
+        id: "abc",
         title: "Board Games at CiC",
         dateStart: "2025-04-12",
         dateEnd: "2025-04-13",
@@ -11,6 +12,7 @@ exports.activities = [
         interestedPeople: [],
     },
     {
+        id: "def",
         title: "Buy a Bike",
         dateStart: "2025-04-12",
         dateEnd: "2025-04-13",

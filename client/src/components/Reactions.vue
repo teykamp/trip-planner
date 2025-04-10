@@ -8,37 +8,39 @@ const props = defineProps<{
 }>();
 
 const storageKey = computed(
-  () => `activity-reaction-${props.activity.title}-${props.activity.dateStart}`
+  () => `activity-reaction-${props.activity.id}`
 );
 const userReaction = useLocalStorage(storageKey.value, null);
 const showEmojiOptions = ref(false);
 const emojiOptions = ["👍", "❤️", "🎉", "🚀", "👏", "😄", "🤔", "👀", "🔥"];
 
-const updateReactions = async () => {
+const updateReaction = async (emoji: string, action: 'increment' | 'decrement') => {
   try {
-    const response = await fetch(`https://trip-planner-back-end.vercel.app/activities/update`, {
+    const response = await fetch(`https://trip-planner-back-end.vercel.app/activities/reaction`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        title: props.activity.title,
-        dateStart: props.activity.dateStart,
-        reactions: props.activity.reactions,
+        activityId: props.activity.id,
+        emoji: emoji,
+        action: action
       }),
     });
-
+    
     if (!response.ok) {
-      throw new Error("Failed to update reactions on the backend");
+      throw new Error("Failed to update reaction on the backend");
     }
+    
   } catch (err) {
-    console.error("Error updating activity reactions:", err);
+    console.error("Error updating activity reaction:", err);
   }
 };
 
 const selectEmoji = (emoji: string) => {
   if (userReaction.value === emoji) {
     userReaction.value = null;
+    
     if (
       props.activity.reactions[emoji] &&
       props.activity.reactions[emoji] > 0
@@ -48,25 +50,31 @@ const selectEmoji = (emoji: string) => {
         delete props.activity.reactions[emoji];
       }
     }
+    
+    updateReaction(emoji, 'decrement');
   } else {
-    props.activity.reactions[emoji] =
-      (props.activity.reactions[emoji] || 0) + 1;
-
+    props.activity.reactions[emoji] = (props.activity.reactions[emoji] || 0) + 1;
+    updateReaction(emoji, 'increment');
+    
     if (userReaction.value) {
+      const previousEmoji = userReaction.value;
+      
       if (
-        props.activity.reactions[userReaction.value] &&
-        props.activity.reactions[userReaction.value] > 0
+        props.activity.reactions[previousEmoji] &&
+        props.activity.reactions[previousEmoji] > 0
       ) {
-        props.activity.reactions[userReaction.value] -= 1;
-        if (props.activity.reactions[userReaction.value] === 0) {
-          delete props.activity.reactions[userReaction.value];
+        props.activity.reactions[previousEmoji] -= 1;
+        
+        updateReaction(previousEmoji, 'decrement');
+        
+        if (props.activity.reactions[previousEmoji] === 0) {
+          delete props.activity.reactions[previousEmoji];
         }
       }
     }
+    
     userReaction.value = emoji;
   }
-
-  updateReactions();
 };
 
 const isEmojiInReactions = (emoji: string) => {

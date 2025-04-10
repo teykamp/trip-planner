@@ -3,6 +3,7 @@ type Reactions = {
 };
 
 export type Activity = {
+  id: string;
   title: string;
   dateStart: string;
   dateEnd: string;

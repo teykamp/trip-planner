@@ -9,7 +9,7 @@ const props = defineProps<{
 }>();
 
 const storageKey = computed(
-  () => `activity-reaction-${props.activity.dateStart}-${props.activity.title}`
+  () => `activity-interest-${props.activity.id}`
 );
 
 const userInterested = useLocalStorage(
@@ -42,13 +42,13 @@ const nameInputValue = ref('')
 
 const clickInterested = () => {
   showNameInput.value = true
-  nameInput.value?.focus()
 }
 
 const submitName = async () => {
   showNameInput.value = false
   userInterested.value = nameInputValue.value
 
+  // 
   try {
     const response = await fetch(`https://trip-planner-back-end.vercel.app/activities/interested`, {
       method: "POST",

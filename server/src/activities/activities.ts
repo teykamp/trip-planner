@@ -1,6 +1,7 @@
 import type { Activity } from "./types";
 export const activities: Activity[] = [
   {
+    id: "abc",
     title: "Board Games at CiC",
     dateStart: "2025-04-12",
     dateEnd: "2025-04-13",
@@ -11,6 +12,7 @@ export const activities: Activity[] = [
     interestedPeople: [],
   },
   {
+    id: "def",
     title: "Buy a Bike",
     dateStart: "2025-04-12",
     dateEnd: "2025-04-13",
