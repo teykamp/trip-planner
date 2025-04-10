@@ -119,7 +119,6 @@ app.post("/activities/interested", (req: Request, res: Response) => {
   
   activity.interestedPeople.push(interestedPersonData);
   
-  // Write updated activities to file
   writeActivitiesToFile(activities);
   
   res.status(200).json({ message: "Activity interested people updated successfully" });
