@@ -7,7 +7,8 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const express_1 = __importDefault(require("express"));
 const http_1 = require("http");
 const constants_1 = require("./constants");
-const activities_1 = require("./activities/activities");
+const fs_1 = __importDefault(require("fs"));
+const path_1 = __importDefault(require("path"));
 const cors_1 = __importDefault(require("cors"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
@@ -31,9 +32,29 @@ const corsOptions = {
 };
 app.use((0, cors_1.default)(corsOptions));
 app.options('*', (0, cors_1.default)(corsOptions));
+const ACTIVITIES_FILE_PATH = path_1.default.join(__dirname, 'activities', 'activities.json');
+const readActivitiesFromFile = () => {
+    try {
+        const data = fs_1.default.readFileSync(ACTIVITIES_FILE_PATH, 'utf8');
+        return JSON.parse(data);
+    }
+    catch (error) {
+        console.error('Error reading activities file:', error);
+        return [];
+    }
+};
+const writeActivitiesToFile = (activities) => {
+    try {
+        fs_1.default.writeFileSync(ACTIVITIES_FILE_PATH, JSON.stringify(activities, null, 2), 'utf8');
+    }
+    catch (error) {
+        console.error('Error writing activities to file:', error);
+    }
+};
 // Get all activities
 app.get("/activities", (req, res) => {
-    res.json(activities_1.activities);
+    const activities = readActivitiesFromFile();
+    res.json(activities);
 });
 // update reaction
 app.post("/activities/reaction", (req, res) => {
@@ -42,7 +63,8 @@ app.post("/activities/reaction", (req, res) => {
         res.status(400).json({ message: "Invalid request parameters" });
         return;
     }
-    const activity = activities_1.activities.find((activity) => activity.id === activityId);
+    const activities = readActivitiesFromFile();
+    const activity = activities.find((activity) => activity.id === activityId);
     if (!activity) {
         res.status(404).json({ message: "Activity not found" });
         return;
@@ -62,6 +84,7 @@ app.post("/activities/reaction", (req, res) => {
         }
     }
     console.log(`Activity ID: ${activityId}, Emoji: ${emoji}, Action: ${action}`);
+    writeActivitiesToFile(activities);
     res.status(200).json({
         message: "Activity reaction updated successfully",
         updatedReactions: activity.reactions
@@ -70,12 +93,15 @@ app.post("/activities/reaction", (req, res) => {
 // update interested
 app.post("/activities/interested", (req, res) => {
     const { title, dateStart, interestedPersonData } = req.body;
-    const activity = activities_1.activities.find((activity) => activity.title === title && activity.dateStart === dateStart);
+    const activities = readActivitiesFromFile();
+    const activity = activities.find((activity) => activity.title === title && activity.dateStart === dateStart);
     if (!activity) {
         res.status(404).json({ message: "Activity not found" });
         return;
     }
     activity.interestedPeople.push(interestedPersonData);
+    // Write updated activities to file
+    writeActivitiesToFile(activities);
     res.status(200).json({ message: "Activity interested people updated successfully" });
 });
 // Serve static files in production
@@ -88,5 +114,4 @@ if (process.env.NODE_ENV === "production") {
 const PORT = Number(process.env.PORT) || constants_1.LOCALHOST_PORT;
 server.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
-    console.log(`Available activities: ${activities_1.activities.length}`);
 });
